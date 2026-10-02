@@ -49,7 +49,10 @@ def playagain(PLinput):
 def reset_board(reset):
     """It will reset the board if the player is playing again."""
     if reset == True:
-        board = ["_1_|", "_2_", "|_3_", "_4_|", "_5_", "|_6_", "7  |", "8", "|  9"]
+        board = ["_1_|", "_2_", "|_3_", "_4_|", "_5_", "|_6_", " 7 |", " 8 ", "| 9"]
     else:
         None
+
+board = ["_1_|", "_2_", "|_3_", "_4_|", "_5_", "|_6_", " 7 |", " 8 ", "| 9"]
+print_board(board)
 
