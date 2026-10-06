@@ -1,3 +1,4 @@
+board1 = [1,2,3,4,5,6,7,8,9]
 def print_board(board):
     """"Prints the Tic-Tac-Toe board, with any moves made by the Playermoves function."""
     print(f"_{board[0]}_|_{board[1]}_|_{board[2]}_")
@@ -17,13 +18,13 @@ def checkmove(pl):
         print("Invalid input.")
         pl = input("Enter a number 1 through 9: ")
     pl = int(pl)
-    while not 0 <= pl <= 8:
+    while not 1 <= pl <= 9:
         print("Invalid move spot.")
         pl = input("Enter a number within the range of 1 through 9: ")
     pl = int(pl)
     return pl
 
-def checktie():
+def checktie(board):
     """It will check to see if the game is a tie at the end."""
     # if move == 0 and check.count("X") == 5:
     #     print("You guys tied!")
@@ -36,7 +37,7 @@ def checktie():
             return False #found open space
     return True
 
-def checkwin():
+def checkwin(board):
     """It will check who won and where they won."""
     #checktie(check, move)
     #check rows:
@@ -48,47 +49,50 @@ def checkwin():
         if board[i] == board[i+3] == board[i+6] and board[i] in ["X","O"]:
             return board[i]
     #check diagonal:
-
+    for i in range(0,1,3):
+        if board[i] == board[i+4] == board[i+8] and board[i] in ["X","O"]:
+            return board[i]
     return None
 
 def playagain(PLinput):
     """It will reset the board if the player is playing again, or end the game."""
-    PLinput = input("Would you like to play again? (Y/y for yes, N/n for No): ").strip.lower()
+    PLinput = input("Would you like to play again? (Y/y for yes, N/n for No): ").strip().lower()
     if PLinput == "y":
-            PLinput.clear()
-            return PLinput
+        PLinput = True
     else:
-        if PLinput != "n":
+        while PLinput != "n":
             print("Invalid input!")
-        else:
-            None
+            PLinput = input("Would you like to play again? (Y/y for yes, N/n for No): ").strip().lower()
+        PLinput = False
+    return PLinput
              
 def reset_board(reset):
     """It will reset the board if the player is playing again."""
     if reset == True:
-        board = ["_1_|", "_2_", "|_3_", "_4_|", "_5_", "|_6_", " 7 |", " 8 ", "| 9"]
-    else:
-        None
+        board1 = [1,2,3,4,5,6,7,8,9]
 
 # board = ["_1_|", "_2_", "|_3_", "_4_|", "_5_", "|_6_", " 7 |", " 8 ", "| 9"]
-board = [1,2,3,4,5,6,7,8,9]
 # boardmove = 8
 # player1 = "Where will X be placed?(1 through 9): "
 # player2 = "Where will O be placed?(1 through 9): "
 active_player = "X"
+PLinput = ""
 while True:
     while True:
-        print_board(board)
+        print_board(board1)
         move = player_move(active_player)
-        board[move] = active_player
-        winner = checkwin()
+        board1[move] = active_player
+        winner = checkwin(board1)
         if winner:
             print(f"{winner} won!")
-        elif checktie():
+            PLinput = playagain(PLinput)
+            break
+        elif checktie(board1):
             print(f"It's a tie!")
+            PLinput = playagain(PLinput)
             break
         active_player = "O" if active_player == "X" else "X"
-    if playagain() == True:
+    if PLinput == False:
         break
     else:
-        reset_board()
+        reset_board(PLinput)
